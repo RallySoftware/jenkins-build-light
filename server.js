@@ -3,7 +3,8 @@
   var middleware = './src/middleware';
 
   var app = express();
-  app.use(require(`${middleware}/logger`));
+
+  // app.use(require(`${middleware}/logger`)); // turn on for development
   app.use('/q', require(`${middleware}/jenkins`));
   app.use(express.static(__dirname + '/public'));
 
