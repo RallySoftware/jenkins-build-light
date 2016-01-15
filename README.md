@@ -59,6 +59,6 @@ Then visit [http://localhost:8080](http://localhost:8080).
 
 ## Contribute
 
-I'm tracking my work on my waffle board. [![Stories in Ready](https://badge.waffle.io/coldpour/jenkins-build-light.png?label=ready&title=Ready)](https://waffle.io/coldpour/jenkins-build-light)
+I'm tracking my work on my waffle board. [![Stories in Ready](https://badge.waffle.io/RallySoftware/jenkins-build-light.png?label=ready&title=Ready)](https://waffle.io/RallySoftware/jenkins-build-light)
 
 Run the app as the "From Source" instructions indicate. After you make changes, press CTRL+C and rerun `npm start`.
