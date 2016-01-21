@@ -14,4 +14,4 @@ ADD src src
 RUN npm install
 EXPOSE 8080
 
-CMD npm start --loglevel warn
+CMD npm start | tee /var/log/build-light.log
