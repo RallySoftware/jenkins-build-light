@@ -36,7 +36,7 @@ var BuildLight = React.createClass({
 
   render() {
     var props = this.props;
-    var color = (props.job && props.job.color) || 'grey';
+    var color = (props.color) || 'grey';
     var url = props.url;
     var cls = 'light ' + color;
 
@@ -74,9 +74,8 @@ var BuildText = React.createClass({
 var BuildName = React.createClass({
   render() {
     var props = this.props;
-    var job = props.job;
-    var displayName = (job && job.displayName) || props.url || '';
-    var url = (job && job.url) || props.url;
+    var displayName = props.displayName || props.url || '';
+    var url = props.url;
     var name = displayName.replace(/#\d*/, '');
     return (
         <a className='build-name' href={ url }>{ name }</a>
@@ -88,7 +87,7 @@ var BuildCulprits = React.createClass({
   render() {
     var props = this.props;
     var culprits = (props.lastBuild && props.lastBuild.culprits) || [];
-    var color = (props.job && props.job.color) || 'grey';
+    var color = props.color || 'grey';
     var list = culprits.reduce((prev, curr, i) => {
       var seperator = i > 0 ? ', ' : '';
       return prev + seperator + curr.fullName;

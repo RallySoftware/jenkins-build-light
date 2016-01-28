@@ -9,21 +9,24 @@
     "docker:open": "bin/opendockerapp.sh",
     "docker:run": "docker run --name=jenkins_build_light -d -P -t coldpour/jenkins-build-light",
     "prestart": "webpack",
-    "stop": "kill `lsof -t -iTCP:8080 -sTCP:LISTEN` 2> /dev/null && echo server stopped || exit 0"
+    "stop": "kill `lsof -t -iTCP:8080 -sTCP:LISTEN` 2> /dev/null && echo server stopped || exit 0",
+    "test": "jasmine",
+    "test:watch": "watch jasmine src spec"
   },
   "author": "Mike Holm <coldpour@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.3",
     "flux": "2.0.1",
-    "jenkins-api": "^0.2.6",
     "jsx-loader": "0.12.2",
     "react": "0.12.2",
     "url-patch": "^0.1.0"
   },
   "devDependencies": {
     "css-loader": "^0.9.1",
+    "jasmine": "^2.4.1",
     "style-loader": "^0.8.3",
+    "watch": "^0.17.1",
     "webpack": "1.4.15",
     "webpack-dev-server": "1.7.0"
   },

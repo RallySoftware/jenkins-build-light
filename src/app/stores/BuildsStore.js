@@ -18,7 +18,7 @@ var setState = (newState) => {
 var update = (updates) => {
   var key = updates.url;
   if(state.builds.hasOwnProperty(key)) {
-    state.builds[key] = assign({}, state.builds[key], updates);
+    state.builds[key] = assign({}, state.builds[key], updates.job);
     events.emit(CHANGE_EVENT);
   }
 };
@@ -62,7 +62,6 @@ var BuildsStore = {
 
 BuildsStore.dispatchToken = AppDispatcher.register((payload) => {
   var { action } = payload;
-  console.log('BuildsStore', action.type);
   if (action.type === ActionTypes.BUILD_REMOVED) {
     remove(action.build);
   } else if (action.type === ActionTypes.BUILD_LOADED) {

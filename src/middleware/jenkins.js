@@ -1,8 +1,10 @@
-var jenkinsapi = require('jenkins-api');
-var patchUrl = require('url-patch');
+'use strict'
 
-var parseJob = (query) => {
-  var prefix = '/';
+const patchUrl = require('url-patch');
+const http = require('http');
+
+const parseJob = (query) => {
+  const prefix = '/';
   if(query.startsWith(prefix)) {
     query = query.substring(prefix.length, query.length);
   }
@@ -10,43 +12,51 @@ var parseJob = (query) => {
   return objectifyJob(query);
 };
 
-var parseUrl = (job) => {
+const parseUrl = (job) => {
   return job.substring(0, job.lastIndexOf('/job/'));
 };
 
-var parseName = (job) => {
+const parseName = (job) => {
   return job.substring(job.lastIndexOf('/job/') + 5, job.length);
 };
 
-var objectifyJob = (job) => {
-  return {
+const objectifyJob = (job) => {
+  const objectified = {
     url: job,
     patchedUrl: patchUrl(parseUrl(job)),
     name: parseName(job)
   };
+  return objectified;
 };
 
-var getJob = (job, cb) => {
-  var jenkins = jenkinsapi.init(job.patchedUrl);
-  var jobInfo = {
+const getJob = (job, cb) => {
+  const tree = 'tree=color,displayName,url,lastBuild[displayName,number,url,building,estimatedDuration,duration,timestamp,culprits[fullName]]';
+  const jobInfo = {
     job: undefined,
-    lastBuild: undefined,
     url: job.url
   };
-
-  jenkins.job_info(job.name, (err, data) => {
-    jobInfo.job = data;
-    jenkins.last_build_info(job.name, (err, data) => {
-      jobInfo.lastBuild = data;
-      cb(err, jobInfo);
+  
+  http.get(`${job.patchedUrl}/job/${job.name}/api/json?${tree}`, (res) => {
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      jobInfo.job = JSON.parse(chunk);
     });
+    res.on('end', () => {
+      cb(null, jobInfo);
+    });
+  }).on('error', (e) => {
+    cb(e, jobInfo);
   });
 };
 
 module.exports = (req, res, next) => {
-  var job = parseJob(req.url);
+  const job = parseJob(req.url);
   getJob(job, (err, results) => {
-    res.send(JSON.stringify(results));
-    next();
+    if(err) {
+      next(err);
+    } else {
+      res.send(JSON.stringify(results));
+      next();
+    }
   });
 };
