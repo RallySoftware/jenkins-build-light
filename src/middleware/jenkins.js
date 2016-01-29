@@ -39,7 +39,11 @@ const getJob = (job, cb) => {
   http.get(`${job.patchedUrl}/job/${job.name}/api/json?${tree}`, (res) => {
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
-      jobInfo.job = JSON.parse(chunk);
+      try {
+        jobInfo.job = JSON.parse(chunk);
+      } catch (SyntaxError) {
+        cb(new Error(`failed to parse JSON: ${job}: ${chunk}`), null);
+      }
     });
     res.on('end', () => {
       cb(null, jobInfo);
