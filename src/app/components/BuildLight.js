@@ -34,20 +34,42 @@ var BuildLight = React.createClass({
     });
   },
 
+  unAnimateColor (color) {
+    return color.replace('_anime', '');
+  },
+
   render() {
     var props = this.props;
-    var color = (props.color) || 'grey';
+    var color = (props.color) && this.unAnimateColor(props.color) || 'grey';
     var url = props.url;
     var cls = 'light ' + color;
 
     return (
         <div className={ `${this.props.className} ${cls}` } onMouseOver={ this.mouseIn } onMouseOut={ this.mouseOut }>
+        <ProgressBar { ...props } />
         <CloseButton show={ this.state.hovered } { ...props } />
         <BuildText { ...props } />
         <BuildNumber { ...props } />
         <BuildDuration { ...props } />
         </div>
     );
+  }
+});
+
+var ProgressBar = React.createClass({
+  render() {
+    var { building, estimatedDuration, timestamp } = this.props.lastBuild;
+
+    if(building) {
+      var elapsed = Date.now() - timestamp;
+      var percentComplete = Math.round(elapsed / estimatedDuration * 100);
+      var styles = {
+        width: `${percentComplete}%`
+      };
+      var cls = `progress-bar ${this.props.color}`;
+      return <div className={ cls } style={ styles } />;
+    }
+    return null;
   }
 });
 

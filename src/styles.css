@@ -57,6 +57,13 @@
   transition: background-color .5s;
 }
 
+.progress-bar {
+  height: 100%;
+  left: 0rem;
+  position: absolute;
+  top: 0rem;
+}
+
 .close-btn {
   cursor: pointer;
   font-size: 1.2rem;
@@ -77,6 +84,10 @@
   transition: opacity .5s;
   opacity: 0;
   pointer-events: none;
+}
+
+.build-text {
+  z-index: 1;
 }
 
 .light-stat {
@@ -224,7 +235,6 @@ body {
 }
 
 .light-grid {
-  /* height: 100%; */
   display: flex;
   flex-basis: 0%;
   flex-direction: row;
