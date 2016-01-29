@@ -1,33 +1,7 @@
 'use strict'
 
-const patchUrl = require('url-patch');
 const http = require('http');
-
-const parseJob = (query) => {
-  const prefix = '/';
-  if(query.startsWith(prefix)) {
-    query = query.substring(prefix.length, query.length);
-  }
-  
-  return objectifyJob(query);
-};
-
-const parseUrl = (job) => {
-  return job.substring(0, job.lastIndexOf('/job/'));
-};
-
-const parseName = (job) => {
-  return job.substring(job.lastIndexOf('/job/') + 5, job.length);
-};
-
-const objectifyJob = (job) => {
-  const objectified = {
-    url: job,
-    patchedUrl: patchUrl(parseUrl(job)),
-    name: parseName(job)
-  };
-  return objectified;
-};
+const parseJob = require('./jobParser');
 
 const getJob = (job, cb) => {
   const tree = 'tree=color,displayName,url,lastBuild[displayName,number,url,building,estimatedDuration,duration,timestamp,culprits[fullName]]';
@@ -53,7 +27,7 @@ const getJob = (job, cb) => {
   });
 };
 
-module.exports = (req, res, next) => {
+module.exports = function jenkins(req, res, next) {
   const job = parseJob(req.url);
   getJob(job, (err, results) => {
     if(err) {
