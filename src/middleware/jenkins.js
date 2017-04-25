@@ -1,6 +1,8 @@
 'use strict'
 
 const http = require('http');
+const https = require('https');
+
 const parseJob = require('./jobParser');
 
 const getJob = (job, cb) => {
@@ -9,8 +11,12 @@ const getJob = (job, cb) => {
     job: undefined,
     url: job.url
   };
-  
-  http.get(`${job.patchedUrl}/job/${job.name}/api/json?${tree}`, (res) => {
+  const httpProtocol =
+    job.patchedUrl.substring (0,5) != 'https'
+      ? http
+      : https;
+
+  httpProtocol.get(`${job.patchedUrl}/job/${job.name}/api/json?${tree}`, (res) => {
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
       try {
