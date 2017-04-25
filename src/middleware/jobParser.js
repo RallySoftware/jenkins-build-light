@@ -7,7 +7,7 @@ module.exports = function(query) {
   if(query.startsWith(prefix)) {
     query = query.substring(prefix.length, query.length);
   }
-  
+
   return objectifyJob(query);
 };
 
