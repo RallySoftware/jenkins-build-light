@@ -1,6 +1,6 @@
 {
   "name": "jenkins-build-light",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "webapp that displays the status of several jenkins jobs even across multiple servers",
   "scripts": {
     "docker": "npm run docker:build && npm run docker:run && npm run docker:open",
@@ -16,17 +16,17 @@
   "author": "Mike Holm <coldpour@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.13.3",
+    "express": "4.13.3",
     "flux": "2.0.1",
     "jsx-loader": "0.12.2",
     "react": "0.12.2",
-    "url-patch": "^0.1.0"
+    "url-patch": "0.2.0"
   },
   "devDependencies": {
-    "css-loader": "^0.9.1",
-    "jasmine": "^2.4.1",
-    "style-loader": "^0.8.3",
-    "watch": "^0.17.1",
+    "css-loader": "0.9.1",
+    "jasmine": "2.4.1",
+    "style-loader": "0.8.3",
+    "watch": "0.17.1",
     "webpack": "1.4.15",
     "webpack-dev-server": "1.7.0"
   },
